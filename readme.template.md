@@ -94,112 +94,19 @@ For information about cloning and dev setup see: [Contributing](#Contributing)
 Here is an example showing basic usage of the Caseless class.
 
 ```python
-from incase import Case, Caseless
-
-# Easily output any case
-example = Caseless("example string")
-
-
-# By property
-print(example.snake)
-# my_cool_example_class
-
-# Or by subscript (string or Case)
-print(example["camel"])
-# exampleString
-
-print(example[Case.UPPER_SNAKE])
-# EXAMPLE_STRING
-
-# Caseless ignores case when checking equality with strings
-print(Caseless("some name") == "SOME_NAME")
-# True
-
-# Caseless can also generate case coercion functions
-make_camel = Caseless.factory("camel")
-
-print(make_camel("snake_case"))
-# snakeCase
-
+{{caseless_example}}
 ```
 
 ### Helper functions
 
 case_modifier is a function for altering other functions. It can change the incoming case of parameter values, the case of the keywords provided, or the case of the function output.
 ```python
-from incase import Case, case_modifier
-
-
-# Some functions you don't control
-def external_function(expectsCamel, iterationCount):
-    # expects camelCase parameter names
-    for i in range(iterationCount):
-        print(expectsCamel)
-
-# We'll use case_modifier. Now any keyword will be turned to camelCase
-f = case_modifier(keywords_case=Case.CAMEL)(external_function)
-
-f(expects_camel="this", iteration_count=1)
-# this
-
-# Here, we'll use case modifier as a function decorator
-#  to give a sarcastic twist to our output
-@case_modifier(args_case="sarcasm")
-def say_words(*args) -> None:
-    [print(word) for word in args]
-
-say_words("It's all about", "the he said", "SHE SAID")
-# It's aLl aBoUt
-# ThE He sAi
-# ShE SaId
-
+{{case_modifier_example}}
 ```
 
 Finally, incase is a powerful case coercion function.
 ```python
-from incase import incase
-
-
-# It covers the basic case
-print(incase("snake", "example text"))
-# example_text
-
-# But can also handle sequences
-print(incase("upper", ["three", "word", "list"]))
-# ['THREE', 'WORD', 'LIST']
-print(incase("upper", ("three", "word", "tuple")))
-# ('THREE', 'WORD', 'TUPLE')
-
-# Even generators
-generator = (word for word in ["some", "list"])
-incased = incase("upper", generator)
-print(incased)
-# <generator object _incase_single.<locals>.<genexpr> at ...
-print(list(incased))
-# ['SOME', 'LIST']
-
-# Or nested objects
-nested = {
-    "first_key": ["some", "list"],
-    "second_key": {"another": "dict"},
-    "third_key": 1,
-}
-print(incase("upper", nested))
-# {"first_key": ["SOME", "LIST"], "second_key": {"another": "DICT"}, "third_key": 1}
-
-# Finally, it is possible to map case to objects
-print(incase(["upper", "lower", "snake", "camel"], ["some_word"] * 4))
-# ['SOME WORD', 'some word', 'some_word', 'someWord']
-
-# By key
-print(
-    incase(
-        {"first_key": "alternating", "second_key": "title"},
-        {"first_key": "some example", "second_key": "another example"},
-    )
-)
-# {'first_key': 'SoMe eXaMpLe', 'second_key': 'Another Example'}
-
+{{incase_example}}
 ```
 
 
