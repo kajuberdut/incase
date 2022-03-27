@@ -31,4 +31,9 @@ setup(
         "Programming Language :: Python :: 3.10",
         "Programming Language :: Python :: 3 :: Only",
     ],
+    entry_points={
+        "console_scripts": [
+            "incase=incase:cli",
+        ]
+    },
 )

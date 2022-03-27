@@ -90,6 +90,21 @@ For information about cloning and dev setup see: [Contributing](#Contributing)
 <!-- USAGE EXAMPLES -->
 ## Usage
 
+### CLI
+You can leverage incase in shell scripts or other non-python contexts by calling it from the cli.
+Example:
+The default output is snake case.
+``` shell
+foo@bar:~$ incase someCamel
+some_camel
+```
+
+Use the --case option to set output case
+``` shell
+foo@bar:~$ incase someCamel --case lower
+some camel
+```
+
 ### Caseless
 Here is an example showing basic usage of the Caseless class.
 
