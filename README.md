@@ -93,15 +93,17 @@ For information about cloning and dev setup see: [Contributing](#Contributing)
 ### CLI
 You can leverage incase in shell scripts or other non-python contexts by calling it from the cli.
 Example:
+
+
 The default output is snake case.
 ``` shell
-foo@bar:~$ incase someCamel
+$ incase someCamel
 some_camel
 ```
 
 Use the --case option to set output case
 ``` shell
-foo@bar:~$ incase someCamel --case lower
+$ incase someCamel --case lower
 some camel
 ```
 
