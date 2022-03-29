@@ -1,8 +1,24 @@
+from cgitb import text
 import enum
 import functools
 import typing as t
+import warnings
+import weakref
+import textwrap
 
 from incase.classes import Case, Caseless
+
+
+DO_NOT_TOUCH = [
+    "__name__",
+    "__doc__",
+    "__package__",
+    "__loader__",
+    "__spec__",
+    "__file__",
+    "__cached__",
+    "__builtins__",
+]
 
 
 def _incase_iterable(case: t.Iterable, value: t.Iterable) -> t.Iterable:
@@ -27,12 +43,13 @@ def _incase_single(case: str | Case, value: str | Case | dict | t.Iterable) -> s
         except TypeError:
             return value
 
+
 @functools.singledispatch
 def incase(case: t.Any, value: t.Any) -> t.Callable:
     if not value:
         return value
     # Enum is not a class and so single dispatch doesn't work on it...
-    if isinstance(case, enum.Enum):
+    if isinstance(case, Case):
         return _incase_single(case.name, value)
     else:
         raise NotImplementedError(f"incase does not support type: {type(case)}")
@@ -50,7 +67,11 @@ def _(case: list, incaseable: t.Iterable) -> t.List:
 
 @incase.register
 def _(case: dict, value: dict) -> dict:
-    return {k: Caseless(v)[case[k]] for k, v in value.items()}
+    if isinstance(value, dict):
+        return {k: Caseless(v)[case[k]] for k, v in value.items()}
+    else:
+
+        return incase(case[value], value) if value in case else value
 
 
 def case_modifier(
@@ -73,3 +94,29 @@ def case_modifier(
         return functools.wraps(func)(wrapper)
 
     return decorator
+
+
+def planetary_defense_shield(case: str | Case, globals: dict):
+    warnings.warn(
+        textwrap.dedent(
+            """
+                                You have invoked the planetary defense shield.
+                                This could have unknown consequences. 
+                                At the least, it will increase the memory use of your code. 
+                                It is not a good idea in production."""
+        )
+    )
+    new_values = {}
+    for k in globals.keys():
+        if (
+            k not in DO_NOT_TOUCH
+            and k != (newname := incase(case, k))
+            and newname not in globals
+        ):
+            print(f"cloaning {k} to {newname}")
+            try:
+                new_values[newname] = weakref.proxy(globals()[k])
+            except TypeError:
+                new_values[newname] = globals[k]
+
+    globals.update(new_values)

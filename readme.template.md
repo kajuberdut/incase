@@ -126,6 +126,13 @@ Finally, incase is a powerful case coercion function.
 {{incase_example}}
 ```
 
+### Planetary Defense Shield
+
+Note that this is probably not a good idea. However, if you want to be able to easily access objects in globals() by a case other then the one they have, you can use the planetary defense shield.
+
+```python
+{{pds_example}}
+```
 
 <!-- CONTRIBUTING -->
 ## Contributing

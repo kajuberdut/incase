@@ -1,7 +1,7 @@
 import argparse
 
 from incase.classes import Case, Caseless
-from incase.functions import case_modifier, incase
+from incase.functions import case_modifier, incase, planetary_defense_shield
 
 
 def cli():

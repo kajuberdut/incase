@@ -40,3 +40,5 @@ print(
     )
 )
 # {'first_key': 'SoMe eXaMpLe', 'second_key': 'Another Example'}
+
+print(incase({"bob": "upper"}, "bob"))

@@ -217,8 +217,37 @@ print(
 )
 # {'first_key': 'SoMe eXaMpLe', 'second_key': 'Another Example'}
 
+print(incase({"bob": "upper"}, "bob"))
+
 ```
 
+### Planetary Defense Shield
+
+Note that this is probably not a good idea. However, if you want to be able to easily access objects in globals() by a case other then the one they have, you can use the planetary defense shield.
+
+```python
+from incase import planetary_defense_shield
+
+THIS_IS_A_THING = "Some Value"
+
+
+def badCamelCaseFunction():
+    print("hi")
+
+
+# If you pass a case, instead of a dictionary, this will grab most of globals.
+# Also note that the objects that will be cloned are whatever is in globals()
+# at the time you pass it as the second argument, so call accordingly.
+planetary_defense_shield(
+    {"THIS_IS_A_THING": "snake", "badCamelCaseFunction": "snake"}, globals()
+)
+
+print(this_is_a_thing)
+# Some Value
+
+bad_camel_case_function()
+# hi
+```
 
 <!-- CONTRIBUTING -->
 ## Contributing
