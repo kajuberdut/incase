@@ -1,8 +1,7 @@
 import argparse
 
-from incase.classes import Case, Caseless
-from incase.functions import case_modifier, incase, planetary_defense_shield
-
+from incase.core import Case, Caseless
+from incase.extra import case_modifier, incase, planetary_defense_shield
 
 def cli():
     parser = argparse.ArgumentParser(

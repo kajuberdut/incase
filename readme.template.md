@@ -57,7 +57,6 @@
     </li>
     <li><a href="#usage">Usage</a>
     </li>
-    <li><a href="#roadmap">Roadmap</a></li>
     <li><a href="#contributing">Contributing</a></li>
     <!-- <li><a href="#license">License</a></li> -->
     <li><a href="#contact">Contact</a></li>
@@ -71,6 +70,12 @@
 
 Incase is a library to help manage word case. It includes a class for abstracting away from case for easy comparison of words or conversion to any case.
 Incase also includes a flexible decorator for managing the case of keywords, inputs, and outputs from functions.
+
+Currently, incase supports the following cases: 
+caseless, camel, dromedary, medial, snake, pascal, initial_capitals, kebab, dash, upper_snake, uppercase, upper, lowercase, lower, title, alternating, sarcasm, original, word
+
+If you are aware of another case, please open an issue so we can add it!
+
 
 
 <!-- GETTING STARTED -->

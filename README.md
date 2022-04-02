@@ -57,7 +57,6 @@
     </li>
     <li><a href="#usage">Usage</a>
     </li>
-    <li><a href="#roadmap">Roadmap</a></li>
     <li><a href="#contributing">Contributing</a></li>
     <!-- <li><a href="#license">License</a></li> -->
     <li><a href="#contact">Contact</a></li>
@@ -71,6 +70,12 @@
 
 Incase is a library to help manage word case. It includes a class for abstracting away from case for easy comparison of words or conversion to any case.
 Incase also includes a flexible decorator for managing the case of keywords, inputs, and outputs from functions.
+
+Currently, incase supports the following cases: 
+caseless, camel, dromedary, medial, snake, pascal, initial_capitals, kebab, dash, upper_snake, uppercase, upper, lowercase, lower, title, alternating, sarcasm, original, word
+
+If you are aware of another case, please open an issue so we can add it!
+
 
 
 <!-- GETTING STARTED -->
@@ -113,13 +118,14 @@ Here is an example showing basic usage of the Caseless class.
 ```python
 from incase import Case, Caseless
 
-# Easily output any case
+# Instances of Caseless are strings
 example = Caseless("example string")
-
+print(isinstance(example, str))
+# True
 
 # By property
 print(example.snake)
-# my_cool_example_class
+# example_string
 
 # Or by subscript (string or Case)
 print(example["camel"])
@@ -128,9 +134,13 @@ print(example["camel"])
 print(example[Case.UPPER_SNAKE])
 # EXAMPLE_STRING
 
-# Caseless ignores case when checking equality with strings
+# Caseless ignore case when comparing to str
 print(Caseless("some name") == "SOME_NAME")
 # True
+
+# Caseless hashes ignore case also
+a_dict = {Caseless("This is a Key"): "this"}
+print(a_dict[Caseless("thisIsAKey")])
 
 # Caseless can also generate case coercion functions
 make_camel = Caseless.factory("camel")

@@ -6,7 +6,7 @@ import warnings
 import weakref
 import textwrap
 
-from incase.classes import Case, Caseless
+from incase.core import Case, Caseless
 
 
 DO_NOT_TOUCH = [
