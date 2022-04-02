@@ -1,9 +1,11 @@
 import argparse
+import sys
 
 from incase.core import Case, Caseless
 from incase.extra import case_modifier, incase, planetary_defense_shield
 
-def cli():
+
+def parse_args(args):
     parser = argparse.ArgumentParser(
         description="Convert a word from one case to another."
     )
@@ -18,7 +20,11 @@ def cli():
         help="The desired case to transform to.",
     )
 
-    args = parser.parse_args()
+    return parser.parse_args(args)
+
+
+def cli():
+    args = parse_args(sys.argv[1:])
     for word in args.words:
         print(incase(args.case, word))
 

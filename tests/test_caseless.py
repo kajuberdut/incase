@@ -1,4 +1,4 @@
-import unittest
+from unittest import TestCase, main
 
 from incase import Case, Caseless
 
@@ -46,7 +46,7 @@ expected = {
 }
 
 
-class TestCaseless(unittest.TestCase):
+class TestCaseless(TestCase):
     def test_cases(self):
         for case, value in expected.items():
             with self.subTest(msg=f"test {case}", case=case, value=value):
@@ -54,4 +54,4 @@ class TestCaseless(unittest.TestCase):
 
 
 if __name__ == "__main__":
-    unittest.main()
+    main()
