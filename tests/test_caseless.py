@@ -1,5 +1,7 @@
 from unittest import TestCase, main
 
+from black import assert_equivalent
+
 from incase import Case, Caseless
 
 test_string = "test string"
@@ -52,6 +54,21 @@ class TestCaseless(TestCase):
             with self.subTest(msg=f"test {case}", case=case, value=value):
                 self.assertEqual(Caseless(test_string)[case], value)
 
+    def test_slice(self):
+        self.assertEqual(test_string[1::2], Caseless(test_string)[1::2])
+
+    def test_repr(self):
+        self.assertEqual(repr(Caseless(test_string)), f'Caseless("{test_string}")')
+
+    def test_hash(self):
+        self.assertEqual(
+            hash(Caseless(test_string)), hash(Caseless(test_string.upper()))
+        )
+
+    def test_factory(self):
+        factory_func = Caseless.factory("upper")
+        self.assertEqual(factory_func(test_string), test_string.upper())
+
 
 if __name__ == "__main__":
-    main()
+    main()  # pragma: no cover

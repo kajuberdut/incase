@@ -123,7 +123,7 @@ class Caseless(str, UserString):
             case Case.ALTERNATING:
                 return self.alternating
             case Case.ORIGINAL:
-                return self.data
+                return self.original
             case Case.WORD:
                 return self.word
 
