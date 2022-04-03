@@ -92,7 +92,7 @@ class TestExtra(TestCase):
     def test_planetary_defense(self):
         values_dict = {"thing": "stuff"}
         planetary_defense_shield("upper", values_dict)
-        self.assertEqual(values_dict["thing"] == values_dict["THING"])
+        self.assertEqual(values_dict["thing"], values_dict["THING"])
 
 
 if __name__ == "__main__":
