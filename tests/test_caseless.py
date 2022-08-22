@@ -1,6 +1,5 @@
 from unittest import TestCase, main
 
-from black import assert_equivalent
 from incase import Case, Caseless
 
 
