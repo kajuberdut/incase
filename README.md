@@ -150,6 +150,25 @@ print(make_camel("snake_case"))
 
 ```
 
+### ASGI Middleware Usage
+
+This ASGI middleware, `JSONCaseTranslatorMiddleware`, translates JSON keys' case between snake_case and camelCase, easing communication between Python backends and JavaScript frontends. It handles JSON key case conversion for incoming and outgoing HTTP requests and responses.
+
+**Example:**
+```python
+from incase.middleware import JSONCaseTranslatorMiddleware
+
+# Setup your FastAPI or Starlette application and then:
+app.add_middleware(JSONCaseTranslatorMiddleware)
+
+```
+
+The middleware is ASGI compliant and should work as middleware with other frameworks but this has not been tested.
+
+See also:
+- https://www.starlette.io/middleware/#using-middleware
+- https://fastapi.tiangolo.com/advanced/middleware/#advanced-middleware
+
 ### Helper functions
 
 case_modifier is a function for altering other functions. It can change the incoming case of parameter values, the case of the keywords provided, or the case of the function output.
