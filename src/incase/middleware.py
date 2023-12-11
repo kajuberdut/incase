@@ -60,7 +60,7 @@ class _CaseModifyingResponder:
         obj = {
             Caseless(key)[Case.SNAKE]: value for key, value in json.loads(body).items()
         }
-        message["body"] = json.dumps(obj).encode()
+        message["body"] = json.dumps(obj).encode("utf-8")
 
         return message
 
@@ -68,14 +68,10 @@ class _CaseModifyingResponder:
         if message["type"] == "http.response.start":
             headers = Headers(raw=message["headers"])
             if headers["content-type"] != "application/json":
-                # Client accepts msgpack, but the app did not send JSON data.
-                # (Note that it may have sent msgpack-encoded data.)
-                self.should_encode_from_json_to_msgpack = False
+                # The app did not send JSON data.
                 await self.send(message)
                 return
 
-            # Don't send the initial message until we've determined how to
-            # modify the ougoging headers correctly.
             self.initial_message = message
 
         elif message["type"] == "http.response.body":
@@ -97,7 +93,7 @@ class _CaseModifyingResponder:
             headers["Content-Type"] = "application/json"
             headers["Content-Length"] = str(len(body))
             message["body"] = body
-
+            
             await self.send(self.initial_message)
             await self.send(message)
 
