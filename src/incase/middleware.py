@@ -1,13 +1,15 @@
-from starlette.middleware.base import BaseHTTPMiddleware
-from incase import Caseless, Case
-from starlette.responses import JSONResponse
 import json
+
+from starlette.middleware.base import BaseHTTPMiddleware
+
+from incase import Case, Caseless
 
 
 class MaybeJsonAsyncIterator:
-    """ This is used to wrap the iterable body of the streaming response
+    """This is used to wrap the iterable body of the streaming response
     so that the json keys can be handled when the iterable is called.
     """
+
     def __init__(self, base_iterable):
         self._async_iterable = base_iterable
 
@@ -34,9 +36,12 @@ class JSONCaseTranslatorMiddleware(BaseHTTPMiddleware):
     async def dispatch(self, request, call_next):
         try:
             data = await request.body()
-            request._body = json.dumps({
-                Caseless(key)[Case.SNAKE]: value for key, value in json.loads(data).items()
-            }).encode(encoding="utf-8")
+            request._body = json.dumps(
+                {
+                    Caseless(key)[Case.SNAKE]: value
+                    for key, value in json.loads(data).items()
+                }
+            ).encode(encoding="utf-8")
         except json.JSONDecodeError:
             pass  # guess it wasn't json
         request.this = "hi"

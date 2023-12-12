@@ -6,7 +6,6 @@ from starlette.responses import JSONResponse, PlainTextResponse
 from starlette.routing import Route
 from starlette.testclient import TestClient
 
-
 CORS_HEADERS = {
     "access-control-allow-origin": "*",  # Allows any origin
     "access-control-allow-methods": "POST, GET, OPTIONS, PUT, DELETE",  # Allowed methods
@@ -16,6 +15,7 @@ CORS_HEADERS = {
 
 def plain_text_endpoint(request):
     return PlainTextResponse("hello world!")
+
 
 def generic_get(request):
     if request.headers["camelCase"] != "yes":
@@ -45,7 +45,6 @@ client = TestClient(app)
 
 
 class TestCaseTranslateMiddleware(TestCase):
-
     def test_plain_text(self):
         response = client.get("/", headers={"camelCase": "yes"})
         self.assertEqual(response.status_code, 200)
