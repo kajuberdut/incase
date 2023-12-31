@@ -165,9 +165,11 @@ app.add_middleware(JSONCaseTranslatorMiddleware)
 
 The middleware is ASGI compliant and should work as middleware with other frameworks but this has not been tested.
 
-**Updated Usage Example:**
+#### Updated Usage Example:
 
-To effectively use JSONCaseTranslatorMiddleware in your FastAPI or Starlette application, it's recommended to use a custom response class (camelJsonResponse) for outgoing data. This approach avoids the performance overhead associated with deserializing and re-serializing JSON in middleware. Here is how you can set it up:
+To effectively use JSONCaseTranslatorMiddleware in your FastAPI or Starlette application, it's recommended to use a custom response class (camelJsonResponse) for outgoing data. This approach avoids the performance overhead associated with deserializing and re-serializing JSON in middleware. 
+
+Here is how you can set it up to use the custom response with FastAPI. Note the argument to FastAPI to set the default_response_class and also the argument to add_middleware to disable response handling.
 
 ``` python
 from fastapi import FastAPI
@@ -190,7 +192,7 @@ async def receive_data(request: Request):
     return {"Received": json_data}
 ```
 
-The above app will return `{"helloThere": "general kenobi"}` at the root because the default_response_class will automatically change json keys to camel case. If you post the following json to the root ("/"): `{"thisThing": 1}` you will see `{"Recieved": {"this_thing": 1}}` because the middleware will intercept the incoming json and conver the keys to snake_case.
+The above app will return `{"helloThere": "general kenobi"}` at the root because the default_response_class will automatically change json keys to camel case. If you post the following json to the root ("/"): `{"thisThing": 1}` you will see `{"Recieved": {"this_thing": 1}}` because the middleware will intercept the incoming json and convert the keys to snake_case.
 
 See also:
 - https://www.starlette.io/middleware/#using-middleware
