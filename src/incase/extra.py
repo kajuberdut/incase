@@ -123,7 +123,9 @@ def keys_case(obj: t.Any, case: Case) -> t.Any:
         return obj
 
     try:
-        return {Caseless(key)[case]: value for key, value in obj.items()}
+        return {
+            Caseless(key)[case]: keys_case(value, case) for key, value in obj.items()
+        }
     except AttributeError:
         try:
             return [keys_case(i, case) for i in obj]
