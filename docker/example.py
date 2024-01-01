@@ -10,25 +10,73 @@ app.add_middleware(JSONCaseTranslatorMiddleware, handle_response=False)
 
 @app.get("/")
 def read_root():
-    return HTMLResponse("""<!DOCTYPE html>
+    return HTMLResponse("""
+<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <title>JSON Submission Form</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+            margin: 0;
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+        }
+
+        h1 {
+            color: #333;
+        }
+
+        textarea {
+            width: 80%;
+            max-width: 500px;
+            margin-bottom: 10px;
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            font-size: 16px;
+            resize: vertical;
+        }
+
+        button {
+            padding: 10px 20px;
+            background-color: #007bff;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 16px;
+        }
+
+        button:hover {
+            background-color: #0056b3;
+        }
+
+        pre {
+            width: 80%;
+            max-width: 500px;
+            background-color: #fff;
+            border: 1px solid #ddd;
+            padding: 10px;
+            border-radius: 4px;
+            overflow-x: auto;
+        }
+    </style>
     <script>
         function submitJSON() {
-            // Retrieve the JSON input from the text box
             var jsonInput = document.getElementById("jsonInput").value;
-
-            // Create a request to the server
             var xhr = new XMLHttpRequest();
             xhr.open("POST", "http://localhost:8000/json", true);
             xhr.setRequestHeader("Content-Type", "application/json");
 
-            // Define what happens on successful data submission
             xhr.onload = function () {
                 if (xhr.status === 200) {
-                    // Parse the response and display it
                     var response = JSON.parse(xhr.responseText);
                     document.getElementById("response").textContent = JSON.stringify(response, null, 2);
                 } else {
@@ -36,13 +84,11 @@ def read_root():
                 }
             };
 
-            // Handle any errors that occur during the request
             xhr.onerror = function () {
                 console.error("Request error...");
             };
 
-            // Send the JSON data
-            xhr.send(JSON.stringify({ data: jsonInput }));
+            xhr.send(jsonInput);
         }
     </script>
 </head>
@@ -54,6 +100,7 @@ def read_root():
     <pre id="response"></pre>
 </body>
 </html>
+
 """)
 
 @app.get("/json")
