@@ -5,16 +5,14 @@ from starlette.middleware.base import BaseHTTPMiddleware
 from starlette.requests import Request
 from starlette.responses import Response, JSONResponse
 
-from incase import Case, Caseless
+from incase import Case, Caseless, keys_case
 
 RequestResponseEndpoint = typing.Callable[[Request], typing.Awaitable[Response]]
 
 
 class camelJsonResponse(JSONResponse):
     def render(self, content: typing.Any) -> bytes:
-        return json.dumps(
-            {Caseless(key)[Case.CAMEL]: value for key, value in content.items()}
-        ).encode("utf-8")
+        return json.dumps(keys_case(content, Case.CAMEL)).encode("utf-8")
 
 
 async def make_camel_json(response: Response) -> Response:
@@ -48,13 +46,11 @@ class JSONCaseTranslatorMiddleware(BaseHTTPMiddleware):
 
     async def dispatch(self, request: Request, call_next: RequestResponseEndpoint):
         try:
-            data = await request.body()
-            request._body = json.dumps(
-                {
-                    Caseless(key)[Case.SNAKE]: value
-                    for key, value in json.loads(data).items()
-                }
-            ).encode(encoding="utf-8")
+            body = await request.body()
+            data = json.loads(body)
+            request._body = json.dumps(keys_case(data, Case.SNAKE)).encode(
+                encoding="utf-8"
+            )
             request.content_length = len(request._body)
         except json.JSONDecodeError:
             pass  # guess it wasn't json

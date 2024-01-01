@@ -1,13 +1,10 @@
-from cgitb import text
-import enum
 import functools
+import textwrap
 import typing as t
 import warnings
 import weakref
-import textwrap
 
 from incase.core import Case, Caseless
-
 
 DO_NOT_TOUCH = [
     "__name__",
@@ -70,7 +67,6 @@ def _(case: dict, value: dict) -> dict:
     if isinstance(value, dict):
         return {k: Caseless(v)[case[k]] for k, v in value.items()}
     else:
-
         return incase(case[value], value) if value in case else value
 
 
@@ -120,3 +116,16 @@ def planetary_defense_shield(case: str | Case, globals: dict):
                 new_values[newname] = globals[k]
 
     globals.update(new_values)
+
+
+def keys_case(obj: t.Any, case: Case) -> t.Any:
+    if isinstance(obj, str):
+        return obj
+
+    try:
+        return {Caseless(key)[case]: value for key, value in obj.items()}
+    except AttributeError:
+        try:
+            return [keys_case(i, case) for i in obj]
+        except TypeError:
+            return obj

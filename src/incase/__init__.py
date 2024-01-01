@@ -2,7 +2,7 @@ import argparse
 import sys
 
 from incase.core import Case, Caseless
-from incase.extra import case_modifier, incase, planetary_defense_shield
+from incase.extra import case_modifier, incase, keys_case, planetary_defense_shield
 
 
 def parse_args(args):
@@ -27,6 +27,7 @@ def cli():
     args = parse_args(sys.argv[1:])
     for word in args.words:
         print(incase(args.case, word))
+
 
 if __name__ == "__main__":  # pragma: no cover
     cli()
