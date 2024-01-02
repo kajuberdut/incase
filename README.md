@@ -167,15 +167,15 @@ The middleware is ASGI compliant and should work as middleware with other framew
 
 #### Updated Usage Example:
 
-To effectively use JSONCaseTranslatorMiddleware in your FastAPI or Starlette application, it's recommended to use a custom response class (camelJsonResponse) for outgoing data. This approach avoids the performance overhead associated with deserializing and re-serializing JSON in middleware. 
+To effectively use JSONCaseTranslatorMiddleware in your FastAPI or Starlette application, it's recommended to use a custom response class (CamelJsonResponse) for outgoing data. This approach avoids the performance overhead associated with deserializing and re-serializing JSON in middleware. 
 
 Here is how you can set it up to use the custom response with FastAPI. Note the argument to FastAPI to set the default_response_class and also the argument to add_middleware to disable response handling.
 
 ``` python
 from fastapi import FastAPI
-from incase.middleware import JSONCaseTranslatorMiddleware, Request, camelJsonResponse
+from incase.middleware import JSONCaseTranslatorMiddleware, Request, CamelJsonResponse
 
-app = FastAPI(default_response_class=camelJsonResponse)
+app = FastAPI(default_response_class=CamelJsonResponse)
 
 app.add_middleware(JSONCaseTranslatorMiddleware, handle_response=False)
 

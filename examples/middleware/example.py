@@ -1,9 +1,9 @@
 from fastapi import FastAPI
 from fastapi.requests import Request
 from fastapi.responses import JSONResponse, HTMLResponse
-from incase.middleware import JSONCaseTranslatorMiddleware, camelJsonResponse
+from incase.middleware import JSONCaseTranslatorMiddleware, CamelJsonResponse
 
-app = FastAPI(default_response_class=camelJsonResponse)
+app = FastAPI(default_response_class=CamelJsonResponse)
 
 app.add_middleware(JSONCaseTranslatorMiddleware, handle_response=False)
 

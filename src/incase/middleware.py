@@ -3,14 +3,14 @@ import typing
 
 from starlette.middleware.base import BaseHTTPMiddleware
 from starlette.requests import Request
-from starlette.responses import Response, JSONResponse
+from starlette.responses import JSONResponse, Response
 
-from incase import Case, Caseless, keys_case
+from incase import Case, keys_case
 
 RequestResponseEndpoint = typing.Callable[[Request], typing.Awaitable[Response]]
 
 
-class camelJsonResponse(JSONResponse):
+class CamelJsonResponse(JSONResponse):
     def render(self, content: typing.Any) -> bytes:
         return json.dumps(keys_case(content, Case.CAMEL)).encode("utf-8")
 
@@ -26,7 +26,7 @@ async def make_camel_json(response: Response) -> Response:
             content = chunk.decode("utf-8")
         else:
             content = chunk
-    return camelJsonResponse(
+    return CamelJsonResponse(
         content=json.loads(content),
         status_code=response.status_code,
         headers=header,
