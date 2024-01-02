@@ -5,7 +5,7 @@ FROM python:3.11
 WORKDIR /app
 
 # Install FastAPI + incase
-RUN pip install fastapi[all] incase
+RUN pip install fastapi[all] "incase>=0.0.12"
 
 # Copy example.py
 COPY example.py /app/example.py
